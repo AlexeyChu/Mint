@@ -11,6 +11,7 @@ public class TreeApp {
         tree.insert(75, 1.9);
         tree.insert(65, 1.9);
         tree.insert(85, 1.9);
+        tree.delete(25);
 
         if (tree.find(85) != null)
             System.out.println("Found the node with key 85");

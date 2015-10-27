@@ -14,7 +14,7 @@ public class Writer {
     }
 
     public static void write() throws IOException {
-        try (PrintWriter pw = new PrintWriter(new File("output.xml"))) {
+        try (PrintWriter pw = new PrintWriter(new File("output.txt"))) {
             String title = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
             pw.print(title);
             String docType = "<!DOCTYPE role [";

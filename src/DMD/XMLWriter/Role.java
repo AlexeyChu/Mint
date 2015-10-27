@@ -35,6 +35,10 @@ public class Role {
         return address;
     }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public int hashCode() {
         return id;

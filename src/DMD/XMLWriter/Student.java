@@ -13,6 +13,10 @@ public class Student extends Role {
         this.email = email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String toString() {
         String tmp = "< " + "student" + " key=\"1\" mdate=\"2015-10-27\">\n" +
                 "<id>1</id>\n" +

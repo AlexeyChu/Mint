@@ -40,6 +40,24 @@ public class Writer {
         updateFile();
     }
 
+    public void updateEmail(Role role, String email) throws Exception{
+        ((Student)role).setEmail(email);
+        roles.put(role.getId(), role);
+        updateFile();
+    }
+
+    public void updateAddress(Role role, String address) throws Exception{
+        role.setAddress(address);
+        roles.put(role.getId(), role);
+        updateFile();
+    }
+
+    public void updateDesignation(Role role, String designation) throws Exception{
+        ((Employee)role).setDesignation(designation);
+        roles.put(role.getId(), role);
+        updateFile();
+    }
+
     public Role search(Role role) {
         return roles.get(role.getId());
     }

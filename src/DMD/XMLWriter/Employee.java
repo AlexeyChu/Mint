@@ -6,10 +6,13 @@ package DMD.XMLWriter;
 public class Employee extends Role {
 
     private String designation;
-    final String type = "employee";
 
     public Employee(String name, String address, String designation) {
         super(name, address);
+        this.designation = designation;
+    }
+
+    public void setDesignation(String designation) {
         this.designation = designation;
     }
 

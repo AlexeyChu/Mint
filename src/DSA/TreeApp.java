@@ -12,12 +12,10 @@ public class TreeApp {
         tree.insert(65, 1.9);
         tree.insert(85, 1.9);
 
-        Node found = tree.find(85);
-
-        if (found != null)
-            System.out.println("Found the node with key " + found.iData);
+        if (tree.find(85) != null)
+            System.out.println("Found the node with key 85");
         else
-            System.out.println("Could not find node with key " + found.iData);
+            System.out.println("Could not find node with key 85");
         System.out.println(tree);
     }
 }

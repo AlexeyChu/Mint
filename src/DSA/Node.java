@@ -5,7 +5,8 @@ package DSA;
  */
 public class Node {
 
-    int iData;
-    double fData;
-    boolean isDeleted;
+    private int iData;
+    private double fData;
+    private boolean isDeleted;
+
 }

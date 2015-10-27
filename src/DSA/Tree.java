@@ -8,11 +8,19 @@ import java.util.Arrays;
 public class Tree {
 
     private Node[] array;
-    int capacity;
+    private int capacity;
 
     public Tree(int capacity) {
         this.capacity = capacity;
         array = new Node[capacity];
+    }
+
+    private class Node {
+
+        int iData;
+        double fData;
+        boolean isDeleted;
+
     }
 
     public Node find(int key) {

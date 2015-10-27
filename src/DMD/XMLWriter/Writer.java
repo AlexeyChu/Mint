@@ -13,12 +13,12 @@ import java.util.TreeMap;
  */
 public class Writer {
 
-
     private static String template = "<?xml version=\"1.0\" encoding=\"US-ASCII\"?>\n" +
             "                    <!DOCTYPE roles [\n" +
             "                    <!ENTITY s \"Student\">\n" +
             "                    <!ENTITY e \"Employee\">\n" +
-            "                    ]>\n";
+            "                    ]>\n" +
+            "                    <roles>\n";
     private static File file = new File("roles.xml");
     private TreeMap<Integer, Role> roles;
 
@@ -67,6 +67,7 @@ public class Writer {
         for (int i = 0; i < roles.size(); i++) {
             print(roles.get(i).toString());
         }
+        print("</roles>\n");
     }
 
     public static void print(String value) throws Exception {
@@ -75,7 +76,7 @@ public class Writer {
         fc.close();
     }
 
-    public static String getTable(Role role) throws IOException {
+   /* public static String getTable(Role role) throws IOException {
         try (PrintWriter pw = new PrintWriter(file)) {
             String doc = "<?xml version=\"1.0\" encoding=\"US-ASCII\"?>\n" +
                     "<!DOCTYPE roles [\n" +
@@ -101,6 +102,6 @@ public class Writer {
             pw.print(doc);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
+        }*/
+
 }

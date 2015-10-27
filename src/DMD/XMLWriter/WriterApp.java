@@ -11,5 +11,7 @@ public class WriterApp {
         w.insert(new Employee("John", "Innopolis", "TA"));
         w.insert(new Student("Adam", "Innopolis", "aqsdfer@gmail.com"));
         w.insert(new Employee("Nancy", "Innopolis", "Instructor"));
+
+
     }
 }

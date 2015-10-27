@@ -10,7 +10,6 @@ public class Role {
     private String name;
     private String address;
     private static int counter;
-    //private String type;
 
     public Role(String name, String address) {
         counter++;

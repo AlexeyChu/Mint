@@ -42,7 +42,7 @@ public class Tree {
     }
 
     public void insert(int id, double dd) {
-        int i = 0, j = 0;
+        int i = 0, j;
         Node newNode = new Node();
         newNode.iData = id;
         newNode.fData = dd;

@@ -9,11 +9,10 @@ public class Role {
     private int id;
     private String name;
     private String address;
-    private static int counter;
+    private static int counter = 0;
 
     public Role(String name, String address) {
-        counter++;
-        this.id = counter;
+        this.id = ++counter;
         this.name = name;
         this.address = address;
     }
@@ -36,6 +35,12 @@ public class Role {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void print() {
+        System.out.println("ID: " + this.getId());
+        System.out.println("Name: " + this.getName());
+        System.out.println("Address: " + this.getAddress());
     }
 
     @Override

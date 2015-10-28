@@ -12,17 +12,28 @@ public class Student extends Role {
         this.email = email;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
+    public void print() {
+        System.out.println("ID: " + this.getId());
+        System.out.println("Name: " + this.getName());
+        System.out.println("Email: " + this.getEmail());
+        System.out.println("Address: " + this.getAddress());
+    }
+
     public String toString() {
-        String tmp = "<" + "student" + " key=\"1\" mdate=\"2015-10-27\">\n" +
-                "<id>1</id>\n" +
+        String tmp = "<" + "student" + " mdate=\"2015-10-27\">\n" +
+                "<id>" + this.getId() + "</id>\n" +
                 "<name> " + this.getName() + " </name>\n" +
                 "<email> " + this.email + " </email>\n" +
                 "<address> " + this.getAddress() + " </address>\n" +
-                "</student>\n";
+                "</student>\n\n";
         return tmp;
     }
 }

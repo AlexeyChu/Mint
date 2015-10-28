@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -15,10 +16,11 @@ public class Writer {
             "<!DOCTYPE roles [\n" +
             "<!ENTITY s \"Student\">\n" +
             "<!ENTITY e \"Employee\">\n" +
-            "]>\n" +
-            "<roles>\n";
+            "]>\n\n" +
+            "<roles>\n\n";
     private static File file = new File("roles.xml");
     private TreeMap<Integer, Role> roles = new TreeMap<>();
+    private static StringBuffer sb;
 
     public void insert(Role role) throws Exception {
         roles.put(role.getId() - 1, role);
@@ -26,46 +28,59 @@ public class Writer {
 
     }
 
-    public Role delete(Object key) throws Exception{
-        Role role = roles.remove(key);
+    public Role delete(int key) throws Exception{
+        Role role = roles.remove(key-1);
         updateFile();
         return role;
     }
 
-    public void updateName(Role role, String name) throws Exception{
-        role.setName(name);
-        roles.put(role.getId(), role);
+    public void updateName(Integer key, String name) throws Exception{
+        roles.get(key - 1).setName(name);
         updateFile();
     }
 
-    public void updateEmail(Role role, String email) throws Exception{
-        ((Student)role).setEmail(email);
-        roles.put(role.getId(), role);
-        updateFile();
+    public void updateEmail(Integer key, String email) throws Exception{
+        try {
+            Role role = roles.get(key - 1);
+            ((Student) role).setEmail(email);
+            //roles.put(role.getId(), role);
+            updateFile();
+        } catch (Exception e) {
+            System.out.println("Employee has not email! You can't change it.");
+        }
     }
 
-    public void updateAddress(Role role, String address) throws Exception{
+    public void updateAddress(Integer key, String address) throws Exception{
+        Role role = roles.get(key - 1);
         role.setAddress(address);
-        roles.put(role.getId(), role);
         updateFile();
     }
 
-    public void updateDesignation(Role role, String designation) throws Exception{
-        ((Employee)role).setDesignation(designation);
-        roles.put(role.getId(), role);
-        updateFile();
+    public void updateDesignation(Integer key, String designation) throws Exception {
+        try {
+            Role role = roles.get(key - 1);
+            ((Employee) role).setDesignation(designation);
+            updateFile();
+        } catch (ClassCastException e) {
+            System.out.println("Student cannot be cast to Employee! You can't change it!");
+        }
     }
 
-    public Role search(Role role) {
-
-        return roles.get(role.getId());
+    public Role search(String name) {
+        for (int i = 0; i < roles.size(); i++) {
+            if (roles.get(i).getName().equals(name)) {
+                roles.get(i).print();
+                return roles.get(i);
+            }
+        }
+        return null;
     }
 
     public void updateFile() throws Exception {
-        StringBuffer sb = new StringBuffer();
+        sb = new StringBuffer();
         sb.append(template);
-        for (int i = 0; i < roles.size(); i++) {
-            sb.append(roles.get(i).toString());
+        for (Map.Entry<Integer, Role> entry : roles.entrySet()) {
+            sb.append(entry.getValue().toString());
         }
         sb.append("</roles>\n");
         print(sb.toString());

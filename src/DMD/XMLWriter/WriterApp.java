@@ -1,5 +1,7 @@
 package DMD.XMLWriter;
 
+import java.util.Hashtable;
+
 /**
  * Created by alex on 28.10.15.
  */
@@ -21,7 +23,9 @@ public class WriterApp {
         w.updateAddress(1, "Kazan");
         w.updateDesignation(3, "TA");
 
-        w.search("Adam");
+        w.sort();
+
+        w.binarySearch("John").print();
 
     }
 }

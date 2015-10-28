@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Created by alex on 27.10.15.
  */
+
 public class Writer {
 
     private static String template = "<?xml version=\"1.0\" encoding=\"US-ASCII\"?>\n" +
@@ -19,13 +19,13 @@ public class Writer {
             "]>\n\n" +
             "<roles>\n\n";
     private static File file = new File("roles.xml");
-    private TreeMap<Integer, Role> roles = new TreeMap<>();
+    private HashMap<Integer, Role> roles = new HashMap<Integer, Role>();
     private static StringBuffer sb;
+    private List<Map.Entry<Integer, Role>> list;
 
     public void insert(Role role) throws Exception {
         roles.put(role.getId() - 1, role);
         updateFile();
-
     }
 
     public Role delete(int key) throws Exception{
@@ -43,7 +43,6 @@ public class Writer {
         try {
             Role role = roles.get(key - 1);
             ((Student) role).setEmail(email);
-            //roles.put(role.getId(), role);
             updateFile();
         } catch (Exception e) {
             System.out.println("Employee has not email! You can't change it.");
@@ -66,14 +65,43 @@ public class Writer {
         }
     }
 
-    public Role search(String name) {
-        for (int i = 0; i < roles.size(); i++) {
+    public Role linearSearch(String name) {
+        for (int i = 1; i <= roles.size(); i++) {
             if (roles.get(i).getName().equals(name)) {
                 roles.get(i).print();
                 return roles.get(i);
             }
         }
         return null;
+    }
+
+    public void sort() {
+        list = new ArrayList(roles.entrySet());
+        list.sort(new NameComp());
+        int i = 0;
+    }
+
+    public Role binarySearch(String name) {
+        int lo = 0;
+        int hi = roles.size() - 1;
+        int curIn;
+        while (true) {
+            curIn = (hi + lo)/2;
+            Role r = list.get(curIn).getValue();
+            if (r.getName().equals(name))
+                return r;
+            else if (lo > hi) {
+                System.out.println("Item is not found!");
+                return null;
+            }
+            else {
+                if (r.getName().compareTo(name) < 1)
+                    lo = curIn+  1;
+                else
+                    hi = curIn - 1;
+            }
+
+        }
     }
 
     public void updateFile() throws Exception {
@@ -91,33 +119,5 @@ public class Writer {
         fc.write(ByteBuffer.wrap(value.getBytes()));
         fc.close();
     }
-
-   /* public static String getTable(Role role) throws IOException {
-        try (PrintWriter pw = new PrintWriter(file)) {
-            String doc = "<?xml version=\"1.0\" encoding=\"US-ASCII\"?>\n" +
-                    "<!DOCTYPE roles [\n" +
-                    "<!ENTITY s \"Student\">\n" +
-                    "<!ENTITY e \"Employee\">\n" +
-                    "]>\n" +
-
-                    "<roles>\n" +
-                    "<student key=\"1\" mdate=\"2015-10-27\">\n" +
-                    "<id>1</id>\n" +
-                    "<name>Alexey Chuvatkin</name>\n" +
-                    "<email>a.chuvatkin@innopolis.ru</email>\n" +
-                    "<address>Russia, Republic of Tatarstan, Innopolis city, Sportivnaya str., 6</address>\n" +
-                    "</student>\n" +
-
-                    "<employee key=\"1\" mdate=\"2015-10-27\">\n" +
-                    "<id>1</id>\n" +
-                    "<name>Sadegh Nobari</name>\n" +
-                    "<designation>Senior Research Scientist at Innopolis University</designation>\n" +
-                    "<address>Russia, Republic of Tatarstan, Innopolis city, Sportivnaya str., unknown</address>\n" +
-                    "</employee>\n" +
-                    "</roles>\n";
-            pw.print(doc);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
 
 }

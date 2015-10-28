@@ -2,8 +2,6 @@ package DMD.XMLWriter;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.TreeMap;
@@ -14,16 +12,16 @@ import java.util.TreeMap;
 public class Writer {
 
     private static String template = "<?xml version=\"1.0\" encoding=\"US-ASCII\"?>\n" +
-            "                    <!DOCTYPE roles [\n" +
-            "                    <!ENTITY s \"Student\">\n" +
-            "                    <!ENTITY e \"Employee\">\n" +
-            "                    ]>\n" +
-            "                    <roles>\n";
+            "<!DOCTYPE roles [\n" +
+            "<!ENTITY s \"Student\">\n" +
+            "<!ENTITY e \"Employee\">\n" +
+            "]>\n" +
+            "<roles>\n";
     private static File file = new File("roles.xml");
-    private TreeMap<Integer, Role> roles;
+    private TreeMap<Integer, Role> roles = new TreeMap<>();
 
     public void insert(Role role) throws Exception {
-        roles.put(role.getId(), role);
+        roles.put(role.getId() - 1, role);
         updateFile();
 
     }
@@ -59,15 +57,18 @@ public class Writer {
     }
 
     public Role search(Role role) {
+
         return roles.get(role.getId());
     }
 
     public void updateFile() throws Exception {
-        print(template);
+        StringBuffer sb = new StringBuffer();
+        sb.append(template);
         for (int i = 0; i < roles.size(); i++) {
-            print(roles.get(i).toString());
+            sb.append(roles.get(i).toString());
         }
-        print("</roles>\n");
+        sb.append("</roles>\n");
+        print(sb.toString());
     }
 
     public static void print(String value) throws Exception {

@@ -6,12 +6,12 @@ package DMD.XMLWriter;
 public class WriterApp {
     public static void main(String[] args) throws Exception{
         Writer w = new Writer();
-        w.insert(new Student("Alex", "Innopolis", "aqer@gmail.com"));
+        Role role = new Employee("Alex", "Innopolis", "Innopolis");
+        w.insert(role);
         w.insert(new Student("Piter", "Innopolis", "afdgqer@gmail.com"));
         w.insert(new Employee("John", "Innopolis", "TA"));
         w.insert(new Student("Adam", "Innopolis", "aqsdfer@gmail.com"));
         w.insert(new Employee("Nancy", "Innopolis", "Instructor"));
-
 
     }
 }

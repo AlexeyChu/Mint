@@ -4,9 +4,8 @@ package DMD.XMLWriter;
  * Created by alex on 27.10.15.
  */
 public class Student extends Role {
-    private String email;
-    //final String type = "student";
 
+    private String email;
 
     public Student(String name, String address, String email) {
         super(name, address);
@@ -18,7 +17,7 @@ public class Student extends Role {
     }
 
     public String toString() {
-        String tmp = "< " + "student" + " key=\"1\" mdate=\"2015-10-27\">\n" +
+        String tmp = "<" + "student" + " key=\"1\" mdate=\"2015-10-27\">\n" +
                 "<id>1</id>\n" +
                 "<name> " + this.getName() + " </name>\n" +
                 "<email> " + this.email + " </email>\n" +

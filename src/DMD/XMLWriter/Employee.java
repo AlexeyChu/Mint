@@ -17,7 +17,7 @@ public class Employee extends Role {
     }
 
     public String toString() {
-        String tmp = "< " + "employee" + " key=\"1\" mdate=\"2015-10-27\">\n" +
+        String tmp = "<" + "employee" + " key=\"1\" mdate=\"2015-10-27\">\n" +
                 "<id>1</id>\n" +
                 "<name> " + this.getName() + " </name>\n" +
                 "<designation> " + this.designation + " </designation>\n" +

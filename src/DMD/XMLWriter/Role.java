@@ -1,7 +1,5 @@
 package DMD.XMLWriter;
 
-import java.util.TreeSet;
-
 /**
  * Created by alex on 27.10.15.
  */

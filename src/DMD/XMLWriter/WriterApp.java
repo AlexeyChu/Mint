@@ -1,7 +1,5 @@
 package DMD.XMLWriter;
 
-import java.util.Hashtable;
-
 /**
  * Created by alex on 28.10.15.
  */

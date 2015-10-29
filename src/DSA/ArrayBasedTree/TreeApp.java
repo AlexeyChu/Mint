@@ -1,4 +1,6 @@
-package DSA;
+package DSA.ArrayBasedTree;
+
+import DSA.ArrayBasedTree.Tree;
 
 /**
  * Created by alex on 27.10.15.

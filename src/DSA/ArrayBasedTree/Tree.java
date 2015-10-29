@@ -1,4 +1,4 @@
-package DSA;
+package DSA.ArrayBasedTree;
 
 import java.util.Arrays;
 

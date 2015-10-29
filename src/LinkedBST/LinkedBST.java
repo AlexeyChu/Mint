@@ -3,12 +3,18 @@ package LinkedBST;
 import edu.princeton.cs.introcs.StdIn;
 import edu.princeton.cs.introcs.StdOut;
 
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.Date;
 import java.util.NoSuchElementException;
 
 /**
  * Created by alex on 27.10.15.
  */
 public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterable<Key>*/ {
+
+    private static BufferedReader reader;
 
     private Node root;
 
@@ -19,9 +25,9 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
         private Node rightChild;
         private int N;
 
-        public Node(Key key, Value val, int N) {
+        public Node(Key key,/* Value val,*/ int N) {
             this.key = key;
-            this.val = val;
+           // this.val = val;
             this.N = N;
         }
     }
@@ -45,21 +51,21 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
         return get(key) != null;
     }
 
-    public void put(Key key, Value val) {
-        if (val == null) {
+    public void put(Key key/*, Value val*/) {
+        /*if (val == null) {
             delete(key);
             return;
-        }
-        root = put(root, key, val);
+        }*/
+        root = put(root, key/*, val*/);
         //assert check();
     }
 
-    private Node put(Node x, Key key, Value val) {
-        if (x == null) return new Node(key, val, 1);
+    private Node put(Node x, Key key/*, Value val*/) {
+        if (x == null) return new Node(key/*, val*/, 1);
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) x.leftChild = put(x.leftChild,  key, val);
-        else if (cmp > 0) x.rightChild = put(x.rightChild, key, val);
-        else              x.val   = val;
+        if      (cmp < 0) x.leftChild = put(x.leftChild,  key/*, val*/);
+        else if (cmp > 0) x.rightChild = put(x.rightChild, key/*, val*/);
+       // else              x.val   = val;
         x.N = 1 + size(x.leftChild) + size(x.rightChild);
         return x;
     }
@@ -287,9 +293,6 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
         return true;
     }
 
-
-
-
     public Node find (Key key) {
         Node current = root;
         while (current.key != key) {
@@ -304,7 +307,7 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
     }
 
     public void insert (Key key, Value val, int N) {
-        Node node = new Node(key, val, N);
+        Node node = new Node(key/*, val*/, N);
         node.key = key;
         if (root == null)
             root = node;
@@ -330,8 +333,47 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
         }
     }
 
-    public static void main(String[] args) {
-        LinkedBST<String, Integer> st = new LinkedBST<String, Integer>();
+    public static int[] parseLine() throws Exception {
+        String[] lines = reader.readLine().split(" ");
+        int[] nums = new int[lines.length];
+        for (int i = 0; i < lines.length; i++) {
+                nums[i] = Integer.parseInt(lines[i]);
+        }
+        return nums;
+    }
+
+    public void printRightChild(Key key) {
+        Node q = find(key);
+        Node right = q == null ? null : q.rightChild;
+        if (right == null)
+            System.out.print("null");
+        else
+            System.out.print(right.key);
+    }
+
+    public static void main(String[] args) throws Exception {
+        LinkedBST bst = new LinkedBST();
+        reader = new BufferedReader(new FileReader(new File("bst.in")));
+
+        int[] nums = parseLine();
+        for (int i = 0; i < nums.length; i++) {
+            bst.put(nums[i]);
+        }
+
+        nums = parseLine();
+        for (int i = 0; i < nums.length; i++) {
+            bst.delete(nums[i]);
+            System.out.print(nums[i] + " ");
+        }
+        System.out.println();
+
+        nums = parseLine();
+        for (int i = 0; i < nums.length; i++) {
+            bst.printRightChild(nums[i]);
+            System.out.print(" ");
+        }
+    }
+       /* LinkedBST<String, Integer> st = new LinkedBST<String, Integer>();
         for (int i = 0; !StdIn.isEmpty(); i++) {
             String key = StdIn.readString();
             st.put(key, i);
@@ -340,9 +382,9 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
        /* for (String s : st.levelOrder())
             StdOut.println(s + " " + st.get(s));*/
 
-        StdOut.println();
+       // StdOut.println();
 
       /*  for (String s : st.keys())
             StdOut.println(s + " " + st.get(s));*/
-    }
+
 }

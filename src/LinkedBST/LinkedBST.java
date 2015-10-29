@@ -2,17 +2,13 @@ package LinkedBST;
 
 import edu.princeton.cs.introcs.StdIn;
 import edu.princeton.cs.introcs.StdOut;
-import introcs.*;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
-import java.util.Queue;
 
 /**
  * Created by alex on 27.10.15.
  */
-public class LinkedBST <Key extends Comparable <Key>, Value> {
+public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterable<Key>*/ {
 
     private Node root;
 
@@ -55,13 +51,13 @@ public class LinkedBST <Key extends Comparable <Key>, Value> {
             return;
         }
         root = put(root, key, val);
-        assert check();
+        //assert check();
     }
 
     private Node put(Node x, Key key, Value val) {
         if (x == null) return new Node(key, val, 1);
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) x.leftChild  = put(x.leftChild,  key, val);
+        if      (cmp < 0) x.leftChild = put(x.leftChild,  key, val);
         else if (cmp > 0) x.rightChild = put(x.rightChild, key, val);
         else              x.val   = val;
         x.N = 1 + size(x.leftChild) + size(x.rightChild);
@@ -114,11 +110,11 @@ public class LinkedBST <Key extends Comparable <Key>, Value> {
     private Node delete(Node x, Key key) {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) x.leftChild  = delete(x.leftChild,  key);
+        if      (cmp < 0) x.leftChild = delete(x.leftChild,  key);
         else if (cmp > 0) x.rightChild = delete(x.rightChild, key);
         else {
             if (x.rightChild == null) return x.leftChild;
-            if (x.leftChild  == null) return x.rightChild;
+            if (x.leftChild == null) return x.rightChild;
             Node t = x;
             x = min(t.rightChild);
             x.rightChild = deleteMin(t.rightChild);
@@ -146,11 +142,6 @@ public class LinkedBST <Key extends Comparable <Key>, Value> {
     private Node max(Node x) {
         if (x.rightChild == null) return x;
         else                 return max(x.rightChild);
-    }
-
-    public Iterable<Key> iterator() {
-
-        return null;
     }
 
     public Key floor(Key key) {
@@ -244,7 +235,7 @@ public class LinkedBST <Key extends Comparable <Key>, Value> {
         return 1 + Math.max(height(x.leftChild), height(x.rightChild));
     }
 
-    public Iterable<Key> levelOrder() {
+   /* public Iterable<Key> levelOrder() {
         Queue<Key> keys = new Queue<Key>();
         Queue<Node> queue = new Queue<Node>();
         queue.enqueue(root);
@@ -256,7 +247,7 @@ public class LinkedBST <Key extends Comparable <Key>, Value> {
             queue.enqueue(x.rightChild);
         }
         return keys;
-    }
+    }*/
 
     private boolean check() {
         if (!isBST())            System.out.println("Not in symmetric order");
@@ -302,7 +293,7 @@ public class LinkedBST <Key extends Comparable <Key>, Value> {
     public Node find (Key key) {
         Node current = root;
         while (current.key != key) {
-            if (current.key.compareTo(key) < 0))
+            if (current.key.compareTo(key) < 0)
                 current = current.leftChild;
             else
                 current = current.rightChild;
@@ -312,8 +303,8 @@ public class LinkedBST <Key extends Comparable <Key>, Value> {
         return current;
     }
 
-    public void insert (Key key) {
-        Node node = new Node();
+    public void insert (Key key, Value val, int N) {
+        Node node = new Node(key, val, N);
         node.key = key;
         if (root == null)
             root = node;
@@ -340,21 +331,18 @@ public class LinkedBST <Key extends Comparable <Key>, Value> {
     }
 
     public static void main(String[] args) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-
         LinkedBST<String, Integer> st = new LinkedBST<String, Integer>();
         for (int i = 0; !StdIn.isEmpty(); i++) {
             String key = StdIn.readString();
             st.put(key, i);
         }
 
-        for (String s : st.levelOrder())
-            StdOut.println(s + " " + st.get(s));
+       /* for (String s : st.levelOrder())
+            StdOut.println(s + " " + st.get(s));*/
 
         StdOut.println();
 
-        for (String s : st.keys())
-            StdOut.println(s + " " + st.get(s));
+      /*  for (String s : st.keys())
+            StdOut.println(s + " " + st.get(s));*/
     }
 }

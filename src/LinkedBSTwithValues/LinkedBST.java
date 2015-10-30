@@ -1,15 +1,16 @@
-package LinkedBST;
+package LinkedBSTwithValues;
 
 import edu.princeton.cs.introcs.StdOut;
 
-import java.io.*;
-import java.util.Iterator;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.NoSuchElementException;
 
 /**
  * Created by alex on 27.10.15.
  */
-class LinkedBST <Key extends Comparable <Key>> {
+class LinkedBST<Key extends Comparable <Key>/*, Value*/> /*implements Iterable<Key>*/ {
 
     private static BufferedReader reader;
 
@@ -17,12 +18,14 @@ class LinkedBST <Key extends Comparable <Key>> {
 
     private class Node {
         private Key key;
+        //private Value val;
         private Node leftChild;
         private Node rightChild;
         private int N;
 
         public Node(Key key,/* Value val,*/ int N) {
             this.key = key;
+            // this.val = val;
             this.N = N;
         }
     }
@@ -320,14 +323,14 @@ class LinkedBST <Key extends Comparable <Key>> {
         LinkedBST<Integer> bst = new LinkedBST();
         reader = new BufferedReader(new FileReader(new File("bst.in")));
 
-        //System.out.println("Insert:");
+        System.out.println("Insert:");
         int[] nums = parseLine();
         for (int i = 0; i < nums.length; i++) {
             bst.put(nums[i]);
         }
 
-        //bst.print();
-        //StdOut.println();
+        bst.print();
+        StdOut.println();
 
        /* for (Integer s : bst.keys())
             StdOut.println(s + " " + bst.get(s));*/
@@ -336,132 +339,14 @@ class LinkedBST <Key extends Comparable <Key>> {
         for (int i = 0; i < nums.length; i++) {
             bst.delete(nums[i]);
         }
-       // System.out.println("Delete: ");
-        //bst.print();
-        //System.out.println();
+        System.out.println("Delete: ");
+        bst.print();
+        System.out.println();
 
         nums = parseLine();
         for (int i = 0; i < nums.length; i++) {
             bst.printRightChild(nums[i]);
             System.out.print(" ");
         }
-    }
-
-    class Queue<Item> implements Iterable<Item> {
-        private int N;         // number of elements on queue
-        private qNode first;    // beginning of queue
-        private qNode last;     // end of queue
-
-        // helper linked list class
-        private class qNode {
-            private Item item;
-            private qNode next;
-        }
-
-        /**
-         * Create an empty queue.
-         */
-        public Queue() {
-            first = null;
-            last = null;
-        }
-
-        /**
-         * Is the queue empty?
-         */
-        public boolean isEmpty() {
-            return first == null;
-        }
-
-        /**
-         * Return the number of items in the queue.
-         */
-        public int size() {
-            return N;
-        }
-
-        /**
-         * Return the number of items in the queue.
-         */
-        public int length() {
-            return N;
-        }
-
-        /**
-         * Return the item least recently added to the queue.
-         * Throw an exception if the queue is empty.
-         */
-        public Item peek() {
-            if (isEmpty()) throw new RuntimeException("Queue underflow");
-            return first.item;
-        }
-
-        /**
-         * Add the item to the queue.
-         */
-        public void enqueue(Item item) {
-            qNode x = new qNode();
-            x.item = item;
-            if (isEmpty()) {
-                first = x;
-                last = x;
-            } else {
-                last.next = x;
-                last = x;
-            }
-            N++;
-        }
-
-        /**
-         * Remove and return the item on the queue least recently added.
-         * Throw an exception if the queue is empty.
-         */
-        public Item dequeue() {
-            if (isEmpty()) throw new RuntimeException("Queue underflow");
-            Item item = first.item;
-            first = first.next;
-            N--;
-            if (isEmpty()) last = null;   // to avoid loitering
-            return item;
-        }
-
-        /**
-         * Return string representation.
-         */
-        public String toString() {
-            StringBuilder s = new StringBuilder();
-            for (Item item : this)
-                s.append(item + " ");
-            return s.toString();
-        }
-
-
-        /**
-         * Return an iterator that iterates over the items on the queue in FIFO order.
-         */
-        public Iterator<Item> iterator() {
-            return new ListIterator();
-        }
-
-        // an iterator, doesn't implement remove() since it's optional
-        private class ListIterator implements Iterator<Item> {
-            private qNode current = first;
-
-            public boolean hasNext() {
-                return current != null;
-            }
-
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-
-            public Item next() {
-                if (!hasNext()) throw new NoSuchElementException();
-                Item item = current.item;
-                current = current.next;
-                return item;
-            }
-        }
-
     }
 }

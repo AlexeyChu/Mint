@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="introcs">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Загрузки/introcs.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Загрузки/introcs.jar!/" />
+    </SOURCES>
+  </library>
+</component>

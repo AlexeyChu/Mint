@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 /**
  * Created by alex on 27.10.15.
  */
-public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterable<Key>*/ {
+public class LinkedBST <Key extends Comparable <Key>/*, Value*/> /*implements Iterable<Key>*/ {
 
     private static BufferedReader reader;
 
@@ -20,14 +20,14 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
 
     private class Node {
         private Key key;
-        private Value val;
+        //private Value val;
         private Node leftChild;
         private Node rightChild;
         private int N;
 
         public Node(Key key,/* Value val,*/ int N) {
             this.key = key;
-           // this.val = val;
+            // this.val = val;
             this.N = N;
         }
     }
@@ -57,29 +57,29 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
             return;
         }*/
         root = put(root, key/*, val*/);
-        //assert check();
+        assert check();
     }
 
     private Node put(Node x, Key key/*, Value val*/) {
         if (x == null) return new Node(key/*, val*/, 1);
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) x.leftChild = put(x.leftChild,  key/*, val*/);
+        if (cmp < 0) x.leftChild = put(x.leftChild, key/*, val*/);
         else if (cmp > 0) x.rightChild = put(x.rightChild, key/*, val*/);
-       // else              x.val   = val;
+        // else              x.val   = val;
         x.N = 1 + size(x.leftChild) + size(x.rightChild);
         return x;
     }
 
-    public Value get(Key key) {
+    public Node get(Key key) {
         return get(root, key);
     }
 
-    private Value get(Node x, Key key) {
+    private Node get(Node x, Key key) {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) return get(x.leftChild, key);
+        if (cmp < 0) return get(x.leftChild, key);
         else if (cmp > 0) return get(x.rightChild, key);
-        else              return x.val;
+        else return x;
     }
 
     public void deleteMin() {
@@ -116,7 +116,7 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
     private Node delete(Node x, Key key) {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) x.leftChild = delete(x.leftChild,  key);
+        if (cmp < 0) x.leftChild = delete(x.leftChild, key);
         else if (cmp > 0) x.rightChild = delete(x.rightChild, key);
         else {
             if (x.rightChild == null) return x.leftChild;
@@ -137,7 +137,7 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
 
     private Node min(Node x) {
         if (x.leftChild == null) return x;
-        else                return min(x.leftChild);
+        else return min(x.leftChild);
     }
 
     public Key max() {
@@ -147,7 +147,7 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
 
     private Node max(Node x) {
         if (x.rightChild == null) return x;
-        else                 return max(x.rightChild);
+        else return max(x.rightChild);
     }
 
     public Key floor(Key key) {
@@ -161,7 +161,7 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
         if (cmp == 0) return x;
-        if (cmp <  0) return floor(x.leftChild, key);
+        if (cmp < 0) return floor(x.leftChild, key);
         Node t = floor(x.rightChild, key);
         if (t != null) return t;
         else return x;
@@ -196,9 +196,9 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
     private Node select(Node x, int k) {
         if (x == null) return null;
         int t = size(x.leftChild);
-        if      (t > k) return select(x.leftChild,  k);
-        else if (t < k) return select(x.rightChild, k-t-1);
-        else            return x;
+        if (t > k) return select(x.leftChild, k);
+        else if (t < k) return select(x.rightChild, k - t - 1);
+        else return x;
     }
 
     public int rank(Key key) {
@@ -209,9 +209,9 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
     private int rank(Key key, Node x) {
         if (x == null) return 0;
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) return rank(key, x.leftChild);
+        if (cmp < 0) return rank(key, x.leftChild);
         else if (cmp > 0) return 1 + size(x.leftChild) + rank(key, x.rightChild);
-        else              return size(x.leftChild);
+        else return size(x.leftChild);
     }
 
     public Iterable<Key> keys() {
@@ -236,12 +236,13 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
     public int height() {
         return height(root);
     }
+
     private int height(Node x) {
         if (x == null) return -1;
         return 1 + Math.max(height(x.leftChild), height(x.rightChild));
     }
 
-   /* public Iterable<Key> levelOrder() {
+    public Iterable<Key> levelOrder() {
         Queue<Key> keys = new Queue<Key>();
         Queue<Node> queue = new Queue<Node>();
         queue.enqueue(root);
@@ -253,10 +254,10 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
             queue.enqueue(x.rightChild);
         }
         return keys;
-    }*/
+    }
 
     private boolean check() {
-        if (!isBST())            System.out.println("Not in symmetric order");
+        if (!isBST()) System.out.println("Not in symmetric order");
         if (!isSizeConsistent()) System.out.println("Subtree counts not consistent");
         if (!isRankConsistent()) System.out.println("Ranks not consistent");
         return isBST() && isSizeConsistent() && isRankConsistent();
@@ -277,7 +278,10 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
     }
 
     // are the size fields correct?
-    private boolean isSizeConsistent() { return isSizeConsistent(root); }
+    private boolean isSizeConsistent() {
+        return isSizeConsistent(root);
+    }
+
     private boolean isSizeConsistent(Node x) {
         if (x == null) return true;
         if (x.N != size(x.leftChild) + size(x.rightChild) + 1) return false;
@@ -293,7 +297,7 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
         return true;
     }
 
-    public Node find (Key key) {
+    public Node find(Key key) {
         Node current = root;
         while (current.key != key) {
             if (current.key.compareTo(key) < 0)
@@ -306,7 +310,7 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
         return current;
     }
 
-    public void insert (Key key, Value val, int N) {
+    public void insert(Key key,/* Value val,*/ int N) {
         Node node = new Node(key/*, val*/, N);
         node.key = key;
         if (root == null)
@@ -337,7 +341,7 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
         String[] lines = reader.readLine().split(" ");
         int[] nums = new int[lines.length];
         for (int i = 0; i < lines.length; i++) {
-                nums[i] = Integer.parseInt(lines[i]);
+            nums[i] = Integer.parseInt(lines[i]);
         }
         return nums;
     }
@@ -351,20 +355,34 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
             System.out.print(right.key);
     }
 
+    public void print() {
+        for (Key s : this.levelOrder())
+            StdOut.println(s + " " + this.get(s));
+
+    }
+
     public static void main(String[] args) throws Exception {
-        LinkedBST bst = new LinkedBST();
+        LinkedBST<Integer> bst = new LinkedBST();
         reader = new BufferedReader(new FileReader(new File("bst.in")));
 
+        System.out.println("Insert:");
         int[] nums = parseLine();
         for (int i = 0; i < nums.length; i++) {
             bst.put(nums[i]);
         }
 
+        bst.print();
+        StdOut.println();
+
+       /* for (Integer s : bst.keys())
+            StdOut.println(s + " " + bst.get(s));*/
+
         nums = parseLine();
         for (int i = 0; i < nums.length; i++) {
             bst.delete(nums[i]);
-            System.out.print(nums[i] + " ");
         }
+        System.out.println("Delete: ");
+        bst.print();
         System.out.println();
 
         nums = parseLine();
@@ -372,19 +390,8 @@ public class LinkedBST <Key extends Comparable <Key>, Value> /*implements Iterab
             bst.printRightChild(nums[i]);
             System.out.print(" ");
         }
+
+
     }
-       /* LinkedBST<String, Integer> st = new LinkedBST<String, Integer>();
-        for (int i = 0; !StdIn.isEmpty(); i++) {
-            String key = StdIn.readString();
-            st.put(key, i);
-        }
-
-       /* for (String s : st.levelOrder())
-            StdOut.println(s + " " + st.get(s));*/
-
-       // StdOut.println();
-
-      /*  for (String s : st.keys())
-            StdOut.println(s + " " + st.get(s));*/
 
 }

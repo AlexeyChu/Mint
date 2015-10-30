@@ -326,19 +326,22 @@ class LinkedBST <Key extends Comparable <Key>> {
             bst.put(nums[i]);
         }
 
-        //bst.print();
-        //StdOut.println();
+        bst.print();
+        StdOut.println();
 
-       /* for (Integer s : bst.keys())
+        /*for (Integer s : bst.keys())
             StdOut.println(s + " " + bst.get(s));*/
 
         nums = parseLine();
+        System.out.print("Keys for deleting: ");
         for (int i = 0; i < nums.length; i++) {
             bst.delete(nums[i]);
+            System.out.print(nums[i] + " ");
         }
-       // System.out.println("Delete: ");
-        //bst.print();
-        //System.out.println();
+        System.out.println();
+        System.out.println("Delete: ");
+        bst.print();
+        System.out.println();
 
         nums = parseLine();
         for (int i = 0; i < nums.length; i++) {

@@ -23,6 +23,7 @@ public class RedBlackTree {
 
         Node(int key) {
             this.key = key;
+            this.isRed = true;
         }
     }
 
@@ -63,70 +64,6 @@ public class RedBlackTree {
         insertFixUp(z);
     }
 
-    private void reverseBlack(Node current) {
-        if (current != root && !current.isRed && current.left.isRed && current.right.isRed) {
-            current.isRed = true;
-            current.right.isRed = false;
-            current.left.isRed = false;
-        }
-    }
-
-    void rotateLeft(Node x) {
-
-        /**************************
-         *  rotate node x to left *
-         **************************/
-
-        Node y = x.right;
-
-    /* establish x->right link */
-        x.right = y.left;
-        if (y.left != null) y.left.parent = x;
-
-    /* establish y->parent link */
-        if (y != null) y.parent = x.parent;
-        if (x.parent != null) {           //!!!!!!!!!!!
-            if (x == x.parent.left)
-                x.parent.left = y;
-            else
-                x.parent.right = y;
-        } else {
-            root = y;
-        }
-
-    /* link x and y */
-        y.left = x;
-        if (x != null) x.parent = y;
-    }
-
-    void rotateRight(Node x) {
-
-        /****************************
-         *  rotate node x to right  *
-         ****************************/
-
-        Node y = x.left;
-
-    /* establish x->left link */
-        x.left = y.right;
-        if (y.right != null) y.right.parent = x;
-
-    /* establish y->parent link */
-        if (y != null) y.parent = x.parent;
-        if (x.parent != null) {                            //!!!!!!!!!!!!!!
-            if (x == x.parent.right)
-                x.parent.right = y;
-            else
-                x.parent.left = y;
-        } else {
-            root = y;
-        }
-
-    /* link x and y */
-        y.right = x;
-        if (x != null) x.parent = y;
-    }
-
     private void insertFixUp(Node x) {
         while (x != root && x.parent.isRed) {
         /* we have a violation */
@@ -157,6 +94,7 @@ public class RedBlackTree {
 
             /* mirror image of above code */
                 Node y = x.parent.parent.left;
+                //System.out.println(y.key);
                 if (y.isRed) {
 
                 /* uncle is RED */
@@ -179,6 +117,59 @@ public class RedBlackTree {
         }
         root.isRed = false;
     }
+
+    private void rotateLeft(Node x) {
+
+        /**************************
+         *  rotate node x to left *
+         **************************/
+
+        Node y = x.right;
+
+    /* establish x->right link */
+        x.right = y.left;
+        if (y.left != null) y.left.parent = x;
+
+    /* establish y->parent link */
+        /*if (y != null)*/ y.parent = x.parent;
+        if (x.parent == null)
+            root = y;
+        else if (x == x.parent.left)
+            x.parent.left = y;
+        else
+            x.parent.right = y;
+
+    /* link x and y */
+        y.left = x;
+        /*if (x != null)*/ x.parent = y;
+    }
+
+    private void rotateRight(Node x) {
+
+        /****************************
+         *  rotate node x to right  *
+         ****************************/
+
+        Node y = x.left;
+
+    /* establish x->left link */
+        x.left = y.right;
+        if (y.right != null) y.right.parent = x;
+
+    /* establish y->parent link */
+        /*if (y != null)*/ y.parent = x.parent;
+        if (x.parent == null)
+            root = y;
+        else if (x == x.parent.right)
+                x.parent.right = y;
+        else
+                x.parent.left = y;
+
+    /* link x and y */
+        y.right = x;
+        /*if (x != null)*/ x.parent = y;
+    }
+
 
     public static int[] parseLine() throws Exception {
         String[] lines = reader.readLine().split(" ");

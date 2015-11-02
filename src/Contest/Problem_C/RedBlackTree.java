@@ -1,4 +1,4 @@
-package RedBlackTree;
+package Contest.Problem_C;
 
 import java.io.BufferedReader;
 import java.io.File;

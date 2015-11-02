@@ -195,24 +195,28 @@ public class RedBlackTree<Key extends Comparable<Key>> {
             return right.key;
     }
 
-    public static void main(String[] args) throws Exception {
-        RedBlackTree<Integer> bst = new RedBlackTree();
+    public static void main(String[] args) {
+        try {
+            RedBlackTree<Integer> rbt = new RedBlackTree();
 
-        reader = new BufferedReader(new FileReader(new File("bst.in")));
-        PrintWriter writer = new PrintWriter(new File("bst.out"));
+            reader = new BufferedReader(new FileReader(new File("rbt.in")));
+            PrintWriter writer = new PrintWriter(new File("rbt.out"));
 
-        int[] nums = parseLine();
-        for (int i = 0; i < nums.length; i++) {
-            bst.insert(nums[i]);
+            int[] nums = parseLine();
+            for (int i = 0; i < nums.length; i++) {
+                rbt.insert(nums[i]);
+            }
+
+            nums = parseLine();
+            for (int i = 0; i < nums.length; i++) {
+                Integer rightChild = rbt.getRightChild(nums[i]);
+                writer.print(rightChild + " ");
+            }
+            reader.close();
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        nums = parseLine();
-        for (int i = 0; i < nums.length; i++) {
-            Integer rightChild = bst.getRightChild(nums[i]);
-            writer.print(rightChild + " ");
-        }
-        reader.close();
-        writer.close();
     }
 }
 

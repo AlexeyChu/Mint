@@ -1,4 +1,4 @@
-package Contest.Problem_C;
+package Contest_Ass3_1.Problem_C;
 
 import java.io.BufferedReader;
 import java.io.File;
